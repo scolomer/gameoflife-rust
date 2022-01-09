@@ -1,6 +1,8 @@
  
+use std::{thread, time};
+
 const WIDTH: i64 = 10;
-const HEIGHT: i64 = 10;
+const HEIGHT: i64 = 20;
 const SIZE: usize = WIDTH as usize * HEIGHT as usize;
 
 fn display(state: [bool; SIZE]) {
@@ -84,6 +86,8 @@ fn main() {
         let nstate = next_gen(state);
         if state == nstate { break }
         state = nstate;
+        thread::sleep(time::Duration::from_millis(200));
+        print!("\x1B[{}A", HEIGHT);
         display(state);
     }
 
