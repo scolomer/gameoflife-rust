@@ -1,14 +1,15 @@
  
 use std::{thread, time};
 
-const WIDTH: i64 = 10;
+const WIDTH: i64 = 20;
 const HEIGHT: i64 = 20;
 const SIZE: usize = WIDTH as usize * HEIGHT as usize;
 
 fn display(state: [bool; SIZE]) {
+    print!("\x1b[1;31m");
     for y in 0..HEIGHT {
         for x in 0..WIDTH {
-            let v = if state[(y * WIDTH + x) as usize] { "X " } else { "  " };
+            let v = if state[(y * WIDTH + x) as usize] { "\u{25A0} " } else { "  " };
             print!("{}", v); 
         }
         println!()
