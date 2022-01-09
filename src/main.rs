@@ -17,7 +17,7 @@ fn display(state: [bool; SIZE]) {
 }
 
 fn init() -> [bool; SIZE] {
-    let mut state: [bool; SIZE] = [false; SIZE];
+    let mut state = [false; SIZE];
     set(0, 2, &mut state);
     set(1, 2, &mut state);
     set(2, 2, &mut state);
@@ -39,7 +39,7 @@ fn get(x: i64, y: i64, state: [bool; SIZE]) -> bool {
 }
 
 fn next_gen(state: [bool; SIZE]) -> [bool; SIZE] {
-    let mut nstate: [bool; SIZE] = [false; SIZE];
+    let mut nstate = [false; SIZE];
 
     for x in 0..WIDTH {
         for y in 0..HEIGHT {
@@ -65,7 +65,7 @@ fn next_gen(state: [bool; SIZE]) -> [bool; SIZE] {
 }
 
 fn get_neigh_count(x: i64, y: i64, state: [bool; SIZE]) -> i32 {
-    let mut count :i32 = 0;
+    let mut count = 0;
 
     for x2 in -1..2 {
         for y2 in -1..2 {
@@ -80,7 +80,7 @@ fn get_neigh_count(x: i64, y: i64, state: [bool; SIZE]) -> i32 {
 
 
 fn main() {
-    let mut state: [bool; SIZE] = init();
+    let mut state = init();
     display(state);
 
     for _i in 0..1000 {
