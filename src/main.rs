@@ -1,5 +1,5 @@
  
-use std::{thread, time};
+use std::{thread, time, env, process, fs::File, io::BufReader, io::{BufRead, self}};
 
 const WIDTH: i64 = 20;
 const HEIGHT: i64 = 20;
@@ -80,7 +80,25 @@ fn get_neigh_count(x: i64, y: i64, state: [bool; SIZE]) -> i32 {
 
 
 fn main() {
-    let mut state = init();
+
+    let args: Vec<String> = env::args().collect();
+
+    let mut state;
+    if args.len() == 1 {
+        state = init();
+    } else if args.len() == 2 {
+        state = match read(&args[1]) {
+                    Ok(v) => v,
+                    Err(e) => {
+                        eprintln!("Error reading file '{}' : {}", args[1], e.to_string());
+                        process::exit(1);
+                    }
+                }
+                
+    } else {
+        eprintln!("Bad number of parameters");
+        process::exit(1);
+    }
     display(state);
 
     for _i in 0..1000 {
@@ -92,4 +110,22 @@ fn main() {
         display(state);
     }
 
+}
+
+fn read(path: &String) -> Result<[bool; SIZE], io::Error> {
+    let file = File::open(path)?;
+    let lines = BufReader::new(file).lines();
+    let mut state = [false; SIZE];
+
+    for (i, rline) in lines.enumerate() {
+        if let Ok(line) = rline {
+            for (j, c) in line.chars().enumerate() {
+                if c == 'X' {
+                    set(j as i64, i as i64, &mut state)
+                }
+            }
+        }
+    }
+
+    Ok(state)
 }
